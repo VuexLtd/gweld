@@ -43,11 +43,13 @@ if (publish) {
      * Determine new version
      */
     const lastVersion = shell
-        .exec('git describe --tags', { silent: true })
+        .exec('git tag -l v*.*.*', { silent: true })
         .stdout.trim()
+        .split('\n')[0]
+        .trim()
         .slice(1);
 
-    console.log(`Current version: v${lastVersion}`);
+    shell.echo(`Current version: v${lastVersion}`);
     const releaseIndex = readline.keyInSelect(
         versions.map(
             version => `${version} (v${semver.inc(lastVersion, version)})`,
@@ -55,10 +57,11 @@ if (publish) {
         'Select which version to bump to',
     );
 
-    let version = lastVersion;
-    if (releaseIndex > -1) {
-        version = semver.inc(lastVersion, versions[releaseIndex]);
+    if (releaseIndex == -1) {
+        shell.exit(0);
     }
+
+    let version = semver.inc(lastVersion, versions[releaseIndex]);
 
     const bumpAndPublish = readline.keyInYNStrict(
         `Bump package from v${lastVersion} to v${version} and publish?`,
@@ -66,8 +69,13 @@ if (publish) {
     if (bumpAndPublish) {
         shell.sed('-i', /0\.0\.0/, version, 'dist/package.json');
 
+        let npmTag = 'latest';
+        if (versions[releaseIndex].startsWith('pre')) {
+            npmTag = 'beta';
+        }
+
         shell.cd('dist');
-        shell.exec('npm publish');
+        shell.exec(`npm publish --tag ${npmTag}`);
         fail('Failed to publish to npm');
         shell.cd('..');
 
