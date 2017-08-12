@@ -25,9 +25,31 @@ myObj.foo = 'foobaz';
 
 
 // observable can also be used as a decorator, e.g.
-
 class MyClass {
     @observable foo = 'bar';
+}
+
+```
+
+## Usage with React/Preact (using TypeScript)
+```tsx
+import { h, Component } from 'preact';
+import { observable } from 'gweld';
+import { observe } from 'gweld/preact'; // or gweld/react
+
+@observe
+class App extends Component<{}, {}> {
+    @observable name = 'James';
+    updateName = evt => this.name = evt.target.value;
+
+    render() {
+        return (
+            <div>
+                <div>Hello {this.name}</div>
+                <input value={this.name} onInput={this.updateName} />
+            </div>
+        )
+    }
 }
 
 ```
