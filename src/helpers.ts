@@ -12,11 +12,11 @@ export function getObservableProperty<T, K extends keyof T>(
         properties = (target as any)[propertiesKey] = {};
     }
 
-    if (properties[propertiesKey] == null) {
-        properties[propertiesKey] = new ObservableProperty<T[K]>();
+    if (properties[propertyKey] == null) {
+        properties[propertyKey] = new ObservableProperty<T[K]>();
     }
 
-    return properties[propertiesKey];
+    return properties[propertyKey];
 }
 
 export function watch<T, K extends keyof T>(

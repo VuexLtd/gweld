@@ -1,4 +1,2 @@
-/node_modules
 **/*.spec.js
 **/*.spec.js.map
-wallaby.conf.js

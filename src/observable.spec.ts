@@ -42,3 +42,23 @@ test.cb('decorator watch', t => {
     });
     a.foo = 'baz';
 });
+
+test('multiple observables', t => {
+    class Test {
+        @observable foo = 'foo';
+        @observable bar = 'bar';
+    }
+
+    const a = new Test();
+
+    t.is(a.foo, 'foo');
+    t.is(a.bar, 'bar');
+
+    a.foo = 'foobar';
+    t.is(a.foo, 'foobar');
+    t.is(a.bar, 'bar');
+
+    a.bar = 'baz';
+    t.is(a.foo, 'foobar');
+    t.is(a.bar, 'baz');
+});

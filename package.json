@@ -1,25 +1,19 @@
 {
     "name": "gweld",
-    "version": "1.0.0-beta.0",
+    "version": "0.0.0",
     "description": "A small library to react to changes on object properties",
-    "main": "dist/index.js",
-    "typings": "dist/index",
+    "main": "index.js",
+    "typings": "index",
     "scripts": {
         "test": "tsc && ava",
-        "build": "tsc",
-        "prepublishOnly": "npm run build"
+        "test:only": "ava",
+        "build": "node tools/build.js"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/VuexLtd/gweld.git"
     },
-    "keywords": [
-        "observe",
-        "watch",
-        "detect",
-        "changes",
-        "react"
-    ],
+    "keywords": ["observe", "watch", "detect", "changes", "react"],
     "author": "James Birtles <jameshbirtles@gmail.com>",
     "license": "MIT",
     "bugs": {
@@ -28,11 +22,12 @@
     "homepage": "https://github.com/VuexLtd/gweld#readme",
     "devDependencies": {
         "ava": "^0.21.0",
+        "readline-sync": "^1.4.7",
+        "semver": "^5.4.1",
+        "shelljs": "^0.7.8",
         "typescript": "^2.4.2"
     },
     "ava": {
-        "files": [
-            "dist/**/*.spec.js"
-        ]
+        "files": ["dist/**/*.spec.js"]
     }
 }
